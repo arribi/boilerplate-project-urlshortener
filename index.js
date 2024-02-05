@@ -19,20 +19,25 @@ app.get('/api/hello', function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+addresses = [];
+
 app.post('/api/shorturl', (req, res) => {
   const url = req.body.url;
-  dns.lookup(err, url) {
+  const short_url = addresses.length + 1;
+
+  dns.lookup(url, (err, addresses,) => {
     if (err) {
       res.json({
         error: 'invalid url'
       });
     } else {
+      addresses.push({ original_url: url, short_url: short_url });
       res.json({
         original_url: url,
-        short_url: 1
+        short_url: short_url
       });
     }
-  }
+  });
 });
 
 app.get('/api/shorturl/:id', (req, res) => {
